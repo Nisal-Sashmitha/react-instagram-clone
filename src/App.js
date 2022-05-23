@@ -1,26 +1,19 @@
 
 import './App.css';
-import Post from './Components/Post'
-import { useState } from 'react';
-
+import Post from './Components/Post';
+import { useEffect, useState } from 'react';
+import { collection, getDocs ,onSnapshot, getFirestore} from "./firebase";
 function App() {
-  const [posts, setPosts] = useState([
-    {
-        username:"nisal123",
-        caption:"wow it worked!",
-        imageUrl: 'https://picsum.photos/200'
-     },
-    {   username:"pavi123",
-        caption:"beauty of the nature!",
-        imageUrl: 'https://picsum.photos/200'
+  const [posts, setPosts] = useState([]);
 
-    },
-    {   username:"kasun123",
-        caption:"nice!",
-        imageUrl: 'https://picsum.photos/200'
+useEffect(()=>{
+  onSnapshot(collection(getFirestore(),"posts"),(snapshot)=>{
+    setPosts(snapshot.docs.map(doc => doc.data()))
+    console.log(posts)
+  });
 
-    }
-]);
+  
+},[]);
   return (
     <div className="App">
       <div className="app__header">
@@ -32,14 +25,12 @@ function App() {
           alt=""
         />  
       </div>
+      {posts.map((post) =>(
+        <Post username={post.username}
+        caption={post.caption}
+        imageUrl={post.imageUrl}/>
+      ))}
       
-      {
-        posts.map(post =>(
-          <Post username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
-        )
-
-        )
-       }
 
       <Post username='nisal123'
           caption="Wow it worked!"
