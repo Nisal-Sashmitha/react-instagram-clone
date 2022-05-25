@@ -10,6 +10,7 @@ import { collection, getDocs ,onSnapshot, getFirestore,getAuth,createUserWithEma
 import { Input } from '@mui/material';
 import { onAuthStateChanged,signOut,updateProfile, signInWithEmailAndPassword } from 'firebase/auth';
 import ImageUpload from './Components/ImageUpload';
+import { orderBy, query } from 'firebase/firestore';
 
 const style = {
   position: 'absolute',
@@ -92,14 +93,16 @@ function App() {
 
 
 useEffect(()=>{
-  onSnapshot(collection(getFirestore(),"posts"),(snapshot)=>{
+  const collectionRef = collection(getFirestore(),"posts");
+  const q = query(collectionRef,orderBy("timestamp","desc"))
+  const unsub = onSnapshot(q,(snapshot)=>{
     setPosts(snapshot.docs.map(doc =>({
       id: doc.id,
       post:doc.data()
     }) ))
     console.log(posts)
   });
-
+return unsub;
   
 },[]);
   return (

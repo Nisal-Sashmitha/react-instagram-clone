@@ -47,11 +47,7 @@ function ImageUpload({username}) {
 
   return (
     <div>
-        
-       {/* I want have.... */}
-      {/*caption input */}
-      {/*file picker */}
-      {/*post button */}
+      <progress value={progress} max='100'/>
       <Input
         placeholder='Enter a caption........'
         type='text'
