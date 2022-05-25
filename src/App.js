@@ -11,6 +11,7 @@ import { Input } from '@mui/material';
 import { onAuthStateChanged,signOut,updateProfile, signInWithEmailAndPassword } from 'firebase/auth';
 import ImageUpload from './Components/ImageUpload';
 import { orderBy, query } from 'firebase/firestore';
+import { InstagramEmbed } from 'react-social-media-embed';
 
 const style = {
   position: 'absolute',
@@ -108,9 +109,7 @@ return unsub;
   return (
     <div className="App">
 
-      {user?.displayName ?(<ImageUpload username={user.displayName}/>):
-      (<h3>Sorry you nee to login to upload!</h3>)}
-      
+     
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -206,26 +205,46 @@ return unsub;
           
           alt=""
         />  
-      </div>
-      {user ? (<Button onClick={() => signOut(auth)}>Log out</Button>):
+        {user ? (<Button onClick={() => signOut(auth)}>Log out</Button>):
       (
       <div>
         <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
         <Button onClick={() => setOpen(true)}>Sign Up</Button>
       </div>) 
       }
+      </div>
+
+      <div className='app__posts'>
+        <div className='app_postsLeft'>
+          {posts.map(({id,post}) =>(
+            <Post key={id} postID={id} username={post.username}
+            caption={post.caption}
+            imageUrl={post.imageUrl}/>
+          ))}
+        </div>
+        
+        <div className='app_postsRight'>
+          <InstagramEmbed url="https://www.instagram.com/p/CUbHfhpswxt/" width={328} />
+          <InstagramEmbed url="https://www.instagram.com/p/B_uf9mAGPw/" width={328} />
+        </div>
+      </div>
       
-      {posts.map(({id,post}) =>(
-        <Post key={id} username={post.username}
-        caption={post.caption}
-        imageUrl={post.imageUrl}/>
-      ))}
+      
+        
+
+         
+      
+      
+      
       
 
    
       {/*header*/}
       {/*post*/}
       {/*post */}
+      {user?.displayName ?(<ImageUpload username={user.displayName}/>):
+      (<h3>Sorry you nee to login to upload!</h3>)}
+      
     </div>
   );
 }

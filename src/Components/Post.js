@@ -1,9 +1,19 @@
 import './../Css/Post.css'
-import Avatar from "@material-ui/core/Avatar"
+import Avatar from "@material-ui/core/Avatar";
+import { useEffect, useState } from 'react';
+import { getDoc, getFirestore,doc } from 'firebase/firestore';
 
-function Post({username, caption, imageUrl}) {
-    
-
+function Post({username, caption, imageUrl,postID}) {
+    const [comments,setComments] = useState([]);
+    const db = getFirestore();
+    useEffect(()=>{
+      if(postID) {
+        const docRef = doc(db,'posts',postID);
+        getDoc(docRef).then((doc)=>{
+          console.log(doc);
+        })
+      }
+    })
   
   return (
     <div className='post'>
@@ -17,7 +27,7 @@ function Post({username, caption, imageUrl}) {
             />
             <h3>{username}</h3>
         </div>
-      {/*header->avatar + username */}
+      {/*header->avatar + username*/}
 
         <img 
             className='post__image' 
