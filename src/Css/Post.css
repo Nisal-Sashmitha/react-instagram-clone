@@ -48,3 +48,6 @@
 .post__comments{
     padding: 20px;
 }
+.app__logout{
+    display:flex
+}

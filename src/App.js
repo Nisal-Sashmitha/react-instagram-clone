@@ -12,6 +12,7 @@ import { onAuthStateChanged,signOut,updateProfile, signInWithEmailAndPassword } 
 import ImageUpload from './Components/ImageUpload';
 import { orderBy, query } from 'firebase/firestore';
 import { InstagramEmbed } from 'react-social-media-embed';
+import Avatar from "@material-ui/core/Avatar";
 
 const style = {
   position: 'absolute',
@@ -129,7 +130,7 @@ return unsub;
          </center>
          <form className='app__signup'>
 
-         <center>
+        
             <Input
               placeholder='username'
               type='text'
@@ -149,7 +150,7 @@ return unsub;
               onChange={(e)=>setPassowrd(e.target.value)}
             /><br/>
             <Button type='submit' onClick={signUp}>Sign Up</Button>
-          </center>
+         
          </form>
          
 
@@ -176,7 +177,7 @@ return unsub;
          </center>
          <form className='app__signup'>
 
-         <center>
+         
             <Input
               placeholder='email'
               type='text'
@@ -190,7 +191,7 @@ return unsub;
               onChange={(e)=>setPassowrd(e.target.value)}
             /><br/>
             <Button type='submit' onClick={signIn}>Sign In</Button>
-          </center>
+          
          </form>
          
 
@@ -205,7 +206,17 @@ return unsub;
           
           alt=""
         />  
-        {user ? (<Button onClick={() => signOut(auth)}>Log out</Button>):
+        {user ? (<div className='app__logout'>
+        <Avatar
+                className="post__avatar"
+                alt={user.displayName}
+                src="/static/images/avatar/1.jpg"
+            />
+          
+          <Button onClick={() => signOut(auth)}>Log out</Button>
+          
+        
+        </div>):
       (
       <div>
         <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
